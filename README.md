@@ -11,3 +11,5 @@ Run the image:
     docker run --rm -p 5000:5000 iam_poc/flask_app
 
 Access the app at: http://localhost:5000/
+
+This will be reused for 2 different apps, i.e. a core app and a kernel app.
