@@ -13,47 +13,47 @@
 #   limitations under the License.
 
 ##################################################################################################
-# core service
+# coreapp service
 ##################################################################################################
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: core
+  name: coreapp
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: core
+  name: coreapp
   labels:
-    app: core
+    app: coreapp
 spec:
   ports:
     - name: http
       port: 8000
       targetPort: 80
   selector:
-    app: core
+    app: coreapp
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: core
+  name: coreapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: core
+      app: coreapp
       version: v1
   template:
     metadata:
       labels:
-        app: core
+        app: coreapp
         version: v1
     spec:
-      serviceAccountName: core
+      serviceAccountName: coreapp
       containers:
         - image: docker.io/yonghao/iam-poc
           imagePullPolicy: IfNotPresent
-          name: core
+          name: coreapp
           ports:
             - containerPort: 80

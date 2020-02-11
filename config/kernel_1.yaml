@@ -13,47 +13,47 @@
 #   limitations under the License.
 
 ##################################################################################################
-# kernel_1 service
+# kernel1 service
 ##################################################################################################
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kernel_1
+  name: kernel1
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: kernel_1
+  name: kernel1
   labels:
-    app: kernel_1
+    app: kernel1
 spec:
   ports:
     - name: http
       port: 8001
       targetPort: 81
   selector:
-    app: kernel_1
+    app: kernel1
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kernel_1
+  name: kernel1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kernel_1
+      app: kernel1
       version: v1
   template:
     metadata:
       labels:
-        app: kernel_1
+        app: kernel1
         version: v1
     spec:
-      serviceAccountName: kernel_1
+      serviceAccountName: kernel1
       containers:
         - image: docker.io/yonghao/iam-poc
           imagePullPolicy: IfNotPresent
-          name: kernel_1
+          name: kernel1
           ports:
             - containerPort: 81
