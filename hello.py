@@ -7,7 +7,8 @@ _KERNEL1_URL = 'localhost:5000'
 
 _KERNEL2_URL = 'localhost:5000'
 
-KERNEL_PATH = "/kernel"
+_KERNEL_PATH = "/kernel"
+
 
 @app.route("/")
 # core layer api to get all workspaces
@@ -29,13 +30,13 @@ def kernel():
 
 @app.route("/coreToKernel1")
 # kernel layer api to get all workspaces
-def coreToKernel1():
-    kernelResponse = requests.get(_KERNEL1_URL + KERNEL_PATH)
-    return "Core to kernel1 " + kernelResponse;
+def core_to_kernel1():
+    response = requests.get(_KERNEL1_URL + _KERNEL_PATH)
+    return "Core to kernel1 " + response
 
 
 @app.route("/coreToKernel2")
 # kernel layer api to get all workspaces
-def coreToKernel2():
-    kernelResponse = requests.get(_KERNEL2_URL + KERNEL_PATH)
-    return "Core to kernel2 " +  kernelResponse
+def core_to_kernel2():
+    response = requests.get(_KERNEL2_URL + _KERNEL_PATH)
+    return "Core to kernel2 " + response
