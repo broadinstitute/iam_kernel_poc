@@ -30,7 +30,7 @@ spec:
   ports:
     - name: http
       port: 8002
-      targetPort: 82
+      targetPort: 5000
   selector:
     app: kernel2
 ---
