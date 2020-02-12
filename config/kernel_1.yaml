@@ -55,5 +55,3 @@ spec:
         - image: docker.io/yonghao/iam-poc
           imagePullPolicy: IfNotPresent
           name: kernel1
-          ports:
-            - containerPort: 81
