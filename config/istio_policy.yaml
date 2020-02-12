@@ -1,0 +1,14 @@
+apiVersion: "authentication.istio.io/v1alpha3"
+kind: "Policy"
+metadata:
+  name: "ic-jwt"
+spec:
+  targets:
+    - name: coreapp
+  peers:
+    - mtls: {}
+  origins:
+    - jwt:
+        issuer: "https://ic-dot-dogeictest.appspot.com/"
+        jwksUri: "https://ic-dot-dogeictest.appspot.com/.well-known/jwks.json"
+  principalBinding: USE_ORIGIN
