@@ -54,5 +54,5 @@ spec:
       serviceAccountName: coreapp
       containers:
         - image: docker.io/yonghao/iam-poc
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: coreapp
