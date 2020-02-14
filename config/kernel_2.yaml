@@ -53,7 +53,7 @@ spec:
       serviceAccountName: kernel2
       containers:
         - image: docker.io/yonghao/iam-poc
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: kernel2
           ports:
-            - containerPort: 82
+            - containerPort: 5000

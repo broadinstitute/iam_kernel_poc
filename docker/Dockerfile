@@ -2,7 +2,7 @@ FROM python:3.7
 
 # Create directory for Bond in the container
 RUN mkdir /app
-WORKDIR app/
+WORKDIR /app
 
 # Install dependencies and set the PYTHONPATH appropriately so that dependencies can be found by the runtime
 COPY requirements.txt .

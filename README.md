@@ -31,11 +31,28 @@ kubectl apply -f config/istio_gateway.yaml
 Grab the location of the gateway. Curl it asking it to redirect to our "coreapp.com".
 
 ```
-
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
-
-
-curl -i -HHost:coreapp.com http://$INGRESS_HOST:$INGRESS_PORT/core
 ```
+
+Call core services with token, use:
+
+```
+curl -H "Authorization: Bearer ${TOKEN}" -v -i http://$INGRESS_HOST/core
+```
+
+Call kernel1 service from coreapp in k8s cluster:
+
+```
+kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c coreapp -n dev -- curl -i http://kernel1:8001/kernel
+```
+
+
+Call kernel2 service from coreapp in k8s cluster:
+
+```
+kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c coreapp -n dev -- curl -i http://kernel2:8002/kernel
+```
+
+

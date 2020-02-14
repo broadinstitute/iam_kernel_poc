@@ -1,7 +1,9 @@
+# Kernel 1
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "ic-jwt"
+  name: "jwt-example"
+  namespace: dev
 spec:
   targets:
     - name: coreapp
@@ -10,3 +12,25 @@ spec:
         issuer: "https://ic-dot-dogeictest.appspot.com/"
         jwksUri: "https://ic-dot-dogeictest.appspot.com/.well-known/jwks.json"
   principalBinding: USE_ORIGIN
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "kernel1"
+  namespace: "dev"
+spec:
+  host: "kernel1.dev.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "kernel2"
+  namespace: "dev"
+spec:
+  host: "kernel2.dev.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
