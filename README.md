@@ -55,4 +55,9 @@ Call kernel2 service from coreapp in k8s cluster:
 kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c coreapp -n dev -- curl -i http://kernel2:8002/kernel
 ```
 
-
+# Authorization
+Run this command to coreapp's check identity of the client certificate
+```
+kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c istio-proxy -n dev  -- cat /etc/cer
+ts/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
+```

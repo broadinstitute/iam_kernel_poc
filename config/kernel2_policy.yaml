@@ -1,0 +1,24 @@
+# Kernel2 policy to enable mutual TLS
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "kernel2-policy"
+  namespace: dev
+spec:
+  targets:
+    - name: kernel2
+  peers:
+    - mtls: {}
+---
+
+# Kernel2 destination rule
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "kernel2"
+  namespace: "dev"
+spec:
+  host: "kernel2.dev.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

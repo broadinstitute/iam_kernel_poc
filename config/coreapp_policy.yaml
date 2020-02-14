@@ -1,0 +1,15 @@
+# Coreapp policy for JWT Verification
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "jwt-example"
+  namespace: dev
+spec:
+  targets:
+    - name: coreapp
+  origins:
+    - jwt:
+        issuer: "https://ic-dot-dogeictest.appspot.com/"
+        jwksUri: "https://ic-dot-dogeictest.appspot.com/.well-known/jwks.json"
+  principalBinding: USE_ORIGIN
+---
