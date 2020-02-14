@@ -8,7 +8,8 @@ spec:
   targets:
     - name: kernel1
   peers:
-    - mtls: {}
+    - mtls:
+        mode: PERMISSIVE
 ---
 
 # Kernel1 destination rule
@@ -23,9 +24,10 @@ spec:
     tls:
       mode: ISTIO_MUTUAL
 ---
+
 # AuthZ Policy
-apiVersion: "security.istio.io/v1beta1"
-kind: "AuthorizationPolicy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: "kernel1-access"
   namespace: dev
@@ -37,7 +39,9 @@ spec:
   rules:
     - from:
         - source:
-            principals: ["cluster.local/ns/dev/sa/coreapp111"]
+            principals: ["cluster.local/ns/dev/sa/coreapp"]
       to:
         - operation:
             methods: ["GET"]
+            paths: ["/kernel*"]
+

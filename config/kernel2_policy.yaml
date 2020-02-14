@@ -8,7 +8,8 @@ spec:
   targets:
     - name: kernel2
   peers:
-    - mtls: {}
+    - mtls:
+        mode: PERMISSIVE
 ---
 
 # Kernel2 destination rule
