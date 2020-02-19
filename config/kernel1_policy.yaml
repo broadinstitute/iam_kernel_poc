@@ -39,9 +39,9 @@ spec:
   rules:
     - from:
         - source:
-            principals: ["cluster.local/ns/dev/sa/coreapp"]
+            principals: ["cluster.local/ns/dev/sa/kernel2"]
       to:
         - operation:
             methods: ["GET"]
-            paths: ["/kernel*"]
+            paths: ["/kernel"]
 

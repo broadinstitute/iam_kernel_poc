@@ -52,7 +52,7 @@ spec:
     spec:
       serviceAccountName: kernel1
       containers:
-        - image: docker.io/yonghao/iam-poc
+        - image: docker.io/yonghao/applayer_app
           imagePullPolicy: Always
           name: kernel1
           ports:

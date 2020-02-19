@@ -13,47 +13,47 @@
 #   limitations under the License.
 
 ##################################################################################################
-# kernel2 service
+# applayer service
 ##################################################################################################
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kernel2
+  name: applayer
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: kernel2
+  name: applayer
   labels:
-    app: kernel2
+    app: applayer
 spec:
   ports:
     - name: http
-      port: 8002
+      port: 8000
       targetPort: 5000
   selector:
-    app: kernel2
+    app: applayer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kernel2
+  name: applayer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kernel2
+      app: applayer
       version: v1
   template:
     metadata:
       labels:
-        app: kernel2
+        app: applayer
         version: v1
     spec:
-      serviceAccountName: kernel2
+      serviceAccountName: applayer
       containers:
         - image: docker.io/yonghao/applayer_app
           imagePullPolicy: Always
-          name: kernel2
+          name: applayer
           ports:
             - containerPort: 5000

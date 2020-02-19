@@ -1,11 +1,15 @@
-from flask import Flask
+from flask import Flask, request
 import requests
 
 app = Flask(__name__)
 
+_COREAPP_URL = 'http://coreapp:8003'
+
 _KERNEL1_URL = 'http://kernel1:8001'
 
 _KERNEL2_URL = 'http://kernel2:8002'
+
+_CORE_TO_KERNEL1_PATH = "/coreToKernel1"
 
 _KERNEL_PATH = "/kernel"
 
@@ -14,6 +18,18 @@ _KERNEL_PATH = "/kernel"
 # core layer api to get all workspaces
 def root():
     return "Hello World!"
+
+
+@app.route("/appToCoreToKernel1")
+# core layer api to get all workspaces
+def app_to_kernel1():
+    user_jwt = request.headers.get("authorization")
+
+    requests.get(
+        _COREAPP_URL + _CORE_TO_KERNEL1_PATH,
+        headers={'Authorization': user_jwt},
+    )
+    return "appToCoreToKernel1"
 
 
 @app.route("/core")

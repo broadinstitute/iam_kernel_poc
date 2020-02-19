@@ -29,7 +29,7 @@ metadata:
 spec:
   ports:
    - name: http
-     port: 8000
+     port: 8003
      targetPort: 5000
   selector:
     app: coreapp
@@ -52,7 +52,7 @@ spec:
     spec:
       serviceAccountName: coreapp
       containers:
-        - image: docker.io/yonghao/iam-poc
+        - image: docker.io/yonghao/applayer_app
           imagePullPolicy: Always
           name: coreapp
           ports:

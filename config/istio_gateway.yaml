@@ -17,7 +17,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: coreapp
+  name: applayer
   namespace: dev
 spec:
   hosts:
@@ -29,4 +29,4 @@ spec:
         - destination:
             port:
               number: 8000
-            host: coreapp.dev.svc.cluster.local
+            host: applayer.dev.svc.cluster.local
