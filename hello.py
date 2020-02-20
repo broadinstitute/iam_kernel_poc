@@ -32,7 +32,12 @@ def app_to_core_to_kernel1():
         headers={'Authorization': user_jwt},
     )
 
-    return "appToCoreToKernel1 " + str(response)
+    content = response.json
+    if response.status_code != 200:
+        print(content)
+        raise requests.HTTPError(response.status_code)
+
+    return "appToCoreToKernel1 with status code: " + str(content)
 
 
 @app.route("/appToCoreToKernel2")
@@ -44,7 +49,11 @@ def app_to_core_to_kernel2():
         headers={'Authorization': user_jwt},
         )
 
-    return "appToCoreToKernel2 " + str(response)
+    content = response.json
+    if response.status_code != 200:
+        print(content)
+        raise requests.HTTPError(response.status_code)
+    return "appToCoreToKernel2 " + str(content)
 
 
 @app.route("/core")
@@ -66,12 +75,23 @@ def core_to_kernel1():
     logging.warning("The caller is " + str(request.headers["X-Forwarded-Client-Cert"]))
     response = requests.get(_KERNEL1_URL + _KERNEL_PATH)
 
-    return "coreToKernel1 " + str(response)
+    content = response.json
+    if response.status_code != 200:
+        print(content)
+        raise requests.HTTPError(response.status_code)
+
+    return "coreToKernel1: " + str(content)
 
 
 @app.route("/coreToKernel2")
 # kernel layer api to get all workspaces
 def core_to_kernel2():
+    logging.warning("The caller is " + str(request.headers["X-Forwarded-Client-Cert"]))
     response = requests.get(_KERNEL2_URL + _KERNEL_PATH)
-    return "coreToKernel2  " + str(response)
+    content = response.json
+    if response.status_code != 200:
+        print(content)
+        raise requests.HTTPError(response.status_code)
+
+    return "coreToKernel2: " + str(content)
 
