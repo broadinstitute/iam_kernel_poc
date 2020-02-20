@@ -1,0 +1,15 @@
+# Sample AuthZ Policy for future istio version 1.4
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: "kernel1-access"
+  namespace: dev
+spec:
+  selector:
+    matchLabels:
+      app: kernel1
+      version: v1
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/dev/sa/kernel2"]

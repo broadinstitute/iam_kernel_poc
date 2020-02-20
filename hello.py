@@ -12,6 +12,8 @@ _KERNEL2_URL = 'http://kernel2:8002'
 
 _CORE_TO_KERNEL1_PATH = "/coreToKernel1"
 
+_CORE_TO_KERNEL2_PATH = "/coreToKernel2"
+
 _KERNEL_PATH = "/kernel"
 
 
@@ -22,7 +24,7 @@ def root():
 
 
 @app.route("/appToCoreToKernel1")
-# core layer api to get all workspaces
+# App to core then to kernel1
 def app_to_core_to_kernel1():
     user_jwt = request.headers.get("authorization")
     response = requests.get(
@@ -31,6 +33,18 @@ def app_to_core_to_kernel1():
     )
 
     return "appToCoreToKernel1 " + str(response)
+
+
+@app.route("/appToCoreToKernel2")
+# App to core then to kernel1
+def app_to_core_to_kernel1():
+    user_jwt = request.headers.get("authorization")
+    response = requests.get(
+        _COREAPP_URL + _CORE_TO_KERNEL2_PATH,
+        headers={'Authorization': user_jwt},
+        )
+
+    return "appToCoreToKernel2 " + str(response)
 
 
 @app.route("/core")
