@@ -1,0 +1,64 @@
+# coreapp destination rule
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "coreapp"
+  namespace: dev
+spec:
+  host: "coreapp.dev.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+
+# Kernel1 policy to enable mutual TLS
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "kernel1-policy"
+  namespace: dev
+spec:
+  targets:
+    - name: kernel1
+  peers:
+    - mtls:
+        mode: PERMISSIVE
+---
+
+# Kernel1 destination rule
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "kernel1"
+  namespace: dev
+spec:
+  host: "kernel1.dev.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+# Kernel2 policy to enable mutual TLS
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "kernel2-policy"
+  namespace: dev
+spec:
+  targets:
+    - name: kernel2
+  peers:
+    - mtls:
+        mode: PERMISSIVE
+---
+
+# Kernel2 destination rule
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "kernel2"
+  namespace: "dev"
+spec:
+  host: "kernel2.dev.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

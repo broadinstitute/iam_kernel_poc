@@ -1,10 +1,11 @@
+# Coreapp policy for JWT Verification
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
-  name: "ic-jwt"
+  name: "app-layer-jwt"
 spec:
   targets:
-    - name: coreapp
+    - name: applayer-policy
   origins:
     - jwt:
         issuer: "https://ic-dot-dogeictest.appspot.com/"

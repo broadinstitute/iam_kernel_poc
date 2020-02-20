@@ -2,6 +2,8 @@
 
 Used for https://broadworkbench.atlassian.net/browse/CA-660 
 
+It contains 4 dummy apps: an application layer app, a core later app, two kernel apps.
+
 Build Docker image:
 
     docker build -f docker/Dockerfile -t iam_poc/flask_app .
@@ -31,11 +33,33 @@ kubectl apply -f config/istio_gateway.yaml
 Grab the location of the gateway. Curl it asking it to redirect to our "coreapp.com".
 
 ```
-
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+```
+
+Call core services with token, use:
+
+```
+curl -H "Authorization: Bearer ${TOKEN}" -v -i http://$INGRESS_HOST/appToCoreToKernel1
+```
+
+Call kernel1 service from coreapp in k8s cluster:
+
+```
+kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c coreapp -n dev -- curl -i http://kernel1:8001/kernel
+```
 
 
-curl -i -HHost:coreapp.com http://$INGRESS_HOST:$INGRESS_PORT/core
+Call kernel2 service from coreapp in k8s cluster:
+
+```
+kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c coreapp -n dev -- curl -i http://kernel2:8002/kernel
+```
+
+# Authorization
+Run this command to app layer 's check identity of the client certificate
+```
+kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c istio-proxy -n dev  -- cat /etc/cer
+ts/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
 ```

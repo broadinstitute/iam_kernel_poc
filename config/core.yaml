@@ -28,10 +28,9 @@ metadata:
     app: coreapp
 spec:
   ports:
-    - name: http
-      port: 8000
-      # Target port matching what port our flask runs on docker.
-      targetPort: 5000
+   - name: http
+     port: 8003
+     targetPort: 5000
   selector:
     app: coreapp
 ---
@@ -53,6 +52,8 @@ spec:
     spec:
       serviceAccountName: coreapp
       containers:
-        - image: docker.io/yonghao/iam-poc
+        - image: docker.io/yonghao/applayer_app
           imagePullPolicy: Always
           name: coreapp
+          ports:
+            - containerPort: 5000
