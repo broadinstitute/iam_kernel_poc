@@ -3,9 +3,14 @@ apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
   name: "jwt-example"
+  namespace: dev
 spec:
   targets:
+    - name: applayer
     - name: coreapp
+  peers:
+    - mtls:
+        mode: PERMISSIVE
   origins:
     - jwt:
         issuer: "https://ic-dot-dogeictest.appspot.com/"

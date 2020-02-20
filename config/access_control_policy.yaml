@@ -1,0 +1,59 @@
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ClusterRbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON_WITH_EXCLUSION'
+  exclusion:
+    services: [
+      "coreapp.dev.svc.cluster.local",
+      "applayer.dev.svc.cluster.local"
+    ]
+    namespaces: ["istio-system"]
+---
+# Kernel1 Access
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: kernel1-access
+  namespace: dev
+spec:
+  rules:
+    - services: ["kernel1.dev.svc.cluster.local"]
+      methods: ["GET"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-kernel1-access
+  namespace: dev
+spec:
+  subjects:
+    - user: "cluster.local/ns/dev/sa/coreapp"
+    - user: "cluster.local/ns/dev/sa/kernel2"
+  roleRef:
+    kind: ServiceRole
+    name: "kernel1-access"
+
+#  Kernel2 Access
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: kernel2-access
+  namespace: dev
+spec:
+  rules:
+    - services: ["kernel2.dev.svc.cluster.local"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-kernel2-access
+  namespace: dev
+spec:
+  subjects:
+    - user: "cluster.local/ns/dev/sa/kernel1"
+  roleRef:
+    kind: ServiceRole
+    name: "kernel2-access"
