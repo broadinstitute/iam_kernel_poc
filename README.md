@@ -2,6 +2,8 @@
 
 Used for https://broadworkbench.atlassian.net/browse/CA-660 
 
+It contains 4 dummy apps: an application layer app, a core later app, two kernel apps.
+
 Build Docker image:
 
     docker build -f docker/Dockerfile -t iam_poc/flask_app .
@@ -39,7 +41,7 @@ export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressga
 Call core services with token, use:
 
 ```
-curl -H "Authorization: Bearer ${TOKEN}" -v -i http://$INGRESS_HOST/core
+curl -H "Authorization: Bearer ${TOKEN}" -v -i http://$INGRESS_HOST/appToCoreToKernel1
 ```
 
 Call kernel1 service from coreapp in k8s cluster:
@@ -56,7 +58,7 @@ kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metada
 ```
 
 # Authorization
-Run this command to coreapp's check identity of the client certificate
+Run this command to app layer 's check identity of the client certificate
 ```
 kubectl exec $(kubectl get pod -l app=coreapp -n dev -o jsonpath={.items..metadata.name}) -c istio-proxy -n dev  -- cat /etc/cer
 ts/cert-chain.pem | openssl x509 -text -noout  | grep 'Subject Alternative Name' -A 1
