@@ -2,17 +2,15 @@
 
 Used for https://broadworkbench.atlassian.net/browse/CA-660
 
-Build Docker image:
-
+Build and  Run Docker image:
+```
    docker build -f docker/Dockerfile -t iam_poc/flask_app .
-
-Run the image locally:
-
    docker run --rm -p 5000:5000 iam_poc/flask_app
+```
 
 Access the app at: http://localhost:5000/
 
-This will be reused for 2 different apps, i.e. a core app and a kernel app.
+This will be reused for 4 different apps, i.e. a applayer, core app and two kernel apps.
 
 ## Deploy to GKE
 

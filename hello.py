@@ -37,7 +37,7 @@ def app_to_core_to_kernel1():
 
 @app.route("/appToCoreToKernel2")
 # App to core then to kernel1
-def app_to_core_to_kernel1():
+def app_to_core_to_kernel2():
     user_jwt = request.headers.get("authorization")
     response = requests.get(
         _COREAPP_URL + _CORE_TO_KERNEL2_PATH,
