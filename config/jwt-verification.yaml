@@ -8,6 +8,7 @@ spec:
   targets:
     - name: applayer
     - name: coreapp
+    - name: istio-ingressgateway
   peers:
     - mtls:
         mode: PERMISSIVE

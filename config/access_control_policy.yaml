@@ -6,8 +6,6 @@ spec:
   mode: 'ON_WITH_EXCLUSION'
   exclusion:
     services: [
-      "coreapp.dev.svc.cluster.local",
-      "applayer.dev.svc.cluster.local"
     ]
     namespaces: ["istio-system"]
 ---
@@ -57,3 +55,54 @@ spec:
   roleRef:
     kind: ServiceRole
     name: "kernel2-access"
+
+---
+#  applayer Access
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: applayer-access
+  namespace: dev
+spec:
+  rules:
+    - services: ["applayer.dev.svc.cluster.local"]
+      methods: ["*"]
+      paths: ["*"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-applayer-access
+  namespace: dev
+spec:
+  subjects:
+    - user: "*"
+  roleRef:
+    kind: ServiceRole
+    name: "applayer-access"
+---
+#  coreapp Access
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: coreapp-access
+  namespace: dev
+spec:
+  rules:
+    - services: ["coreapp.dev.svc.cluster.local"]
+      methods: ["*"]
+      paths: ["*"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: bind-coreapp-access
+  namespace: dev
+spec:
+  subjects:
+    - user: "*"
+  roleRef:
+    kind: ServiceRole
+    name: "coreapp-access"
